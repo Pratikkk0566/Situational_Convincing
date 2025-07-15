@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Interactive Choice Page</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Georgia', serif;
+            background: linear-gradient(135deg, #ff69b4 0%, #ffc0cb 50%, #ffb6c1 100%);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        /* Floating Hearts Background */
+        .heart {
+            position: absolute;
+            color: rgba(255, 255, 255, 0.3);
+            font-size: 20px;
+            animation: float 6s ease-in-out infinite;
+            user-select: none;
+            pointer-events: none;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(-20px) rotate(180deg); }
+        }
+
+        /* Main Container */
+        .container {
+            text-align: center;
+            max-width: 90%;
+            width: 100%;
+            padding: 30px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        /* Main Message */
+        .main-message {
+            font-size: 28px;
+            color: #fff;
+            margin-bottom: 40px;
+            font-weight: 600;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+            line-height: 1.4;
+            padding: 0 10px;
+        }
+
+        /* Dynamic Message Display Area */
+        .message-display {
+            min-height: 80px;
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 15px;
+            padding: 20px;
+            margin-bottom: 40px;
+            color: #d63384;
+            font-size: 20px;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+            position: relative;
+            z-index: 10;
+        }
+
+        .message-display.show {
+            transform: scale(1.05);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+        }
+
+        /* Button Container */
+        .button-container {
+            display: flex;
+            gap: 30px;
+            justify-content: center;
+            align-items: center;
+            margin-top: 20px;
+        }
+
+        /* Button Styles */
+        .interactive-button {
+            padding: 25px 50px;
+            font-size: 22px;
+            font-weight: 600;
+            border: none;
+            border-radius: 25px;
+            cursor: pointer;
+            transition: all 0.4s ease;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            min-width: 300px;
+            min-height: 80px;
+            font-family: inherit;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            z-index: 5;
+        }
+
+        .no-button {
+            background: linear-gradient(45deg, #ff4757, #ff3838);
+            color: white;
+            transform: scale(1);
+        }
+
+        .no-button:hover:not(.disabled) {
+            background: linear-gradient(45deg, #ff3838, #ff2d2d);
+            transform: scale(1.05);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        .yes-button {
+            background: linear-gradient(45deg, #2ed573, #1dd1a1);
+            color: white;
+            transform: scale(1);
+        }
+
+        .yes-button:hover:not(.disabled) {
+            background: linear-gradient(45deg, #1dd1a1, #0abde3);
+            transform: scale(1.05);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        /* Hidden state */
+        .hidden {
+            opacity: 0;
+            transform: scale(0) !important;
+            pointer-events: none;
+        }
+
+        /* Disabled state */
+        .disabled {
+            pointer-events: none;
+            cursor: not-allowed;
+        }
+
+        /* Success state for yes button */
+        .success {
+            background: linear-gradient(45deg, #2ed573, #1dd1a1) !important;
+            box-shadow: 0 8px 25px rgba(46, 213, 115, 0.4) !important;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .container {
+                margin: 20px;
+                padding: 20px;
+                max-width: 95%;
+            }
+
+            .main-message {
+                font-size: 22px;
+                margin-bottom: 30px;
+            }
+
+            .message-display {
+                font-size: 18px;
+                padding: 15px;
+                margin-bottom: 30px;
+                min-height: 70px;
+            }
+
+            .button-container {
+                flex-direction: column;
+                gap: 20px;
+            }
+
+            .interactive-button {
+                width: 100%;
+                max-width: 350px;
+                padding: 20px 40px;
+                font-size: 20px;
+                min-height: 70px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .container {
+                margin: 15px;
+                padding: 15px;
+            }
+
+            .main-message {
+                font-size: 18px;
+            }
+
+            .message-display {
+                font-size: 16px;
+                padding: 12px;
+                min-height: 60px;
+            }
+
+            .interactive-button {
+                font-size: 18px;
+                padding: 18px 35px;
+                min-height: 65px;
+                max-width: 320px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Floating Hearts Background -->
+    <div class="heart" style="top: 10%; left: 10%; animation-delay: 0s;">♥</div>
+    <div class="heart" style="top: 20%; left: 80%; animation-delay: 1s;">♥</div>
+    <div class="heart" style="top: 15%; left: 30%; animation-delay: 2s;">♥</div>
+    <div class="heart" style="top: 25%; left: 70%; animation-delay: 3s;">♥</div>
+    <div class="heart" style="top: 35%; left: 15%; animation-delay: 4s;">♥</div>
+    <div class="heart" style="top: 45%; left: 85%; animation-delay: 5s;">♥</div>
+    <div class="heart" style="top: 55%; left: 25%; animation-delay: 0.5s;">♥</div>
+    <div class="heart" style="top: 65%; left: 75%; animation-delay: 1.5s;">♥</div>
+    <div class="heart" style="top: 75%; left: 40%; animation-delay: 2.5s;">♥</div>
+    <div class="heart" style="top: 85%; left: 60%; animation-delay: 3.5s;">♥</div>
+    <div class="heart" style="top: 8%; left: 50%; animation-delay: 4.5s;">♥</div>
+    <div class="heart" style="top: 30%; left: 45%; animation-delay: 1.2s;">♥</div>
+    <div class="heart" style="top: 50%; left: 5%; animation-delay: 2.8s;">♥</div>
+    <div class="heart" style="top: 70%; left: 90%; animation-delay: 3.8s;">♥</div>
+    <div class="heart" style="top: 90%; left: 20%; animation-delay: 4.8s;">♥</div>
+
+    <!-- Main Content -->
+    <div class="container">
+        <div class="main-message">
+            swatahun Banavla , just because web dev yete ani first wali tula dedicated aahe !
+        </div>
+        
+        <!-- Dynamic Message Display Area -->
+        <div class="message-display" id="messageDisplay">
+            Ata choose kara baa , tumhala samajna is difficult but chalte itka kra choose ata 👉👈
+        </div>
+
+        <!-- Interactive Buttons -->
+        <div class="button-container">
+            <button class="interactive-button no-button" id="noButton">
+                Nahi bolnar , tu wait aahes
+            </button>
+            <button class="interactive-button yes-button" id="yesButton">
+                Bolnar n , (kharach ?)
+            </button>
+        </div>
+    </div>
+
+    <script>
+        // ===== CUSTOMIZABLE MESSAGES =====
+        // Edit these arrays to change the messages shown
+        const noButtonMessages = [
+            "Every ‘no’ is making me like you more… ab bas na!",
+            "Even the ‘No’ button is tired now… tu nahi ka?😔",
+            "Clicking ‘No’ won't change the fact ki tu majhya sathi special ahes 💓",
+            "Majhi patience test karteys ka?  Asa nahi karu naa maa ⚠️",
+            "Arey tula convince karayla hi Website Banavli mi! Ata tr bol naa mazya shi : ( 😢"
+        ];
+
+        const yesButtonMessage = "Let's have a Sandwich Date *whispers* (Sweet Corn Wala) 💖!  Tula watte itkya sahaz pane sodel mi tula ? after all those promises, and yeah lets have a one on one conversation naa afterall conversation was the key right maa ! 😉";
+
+        // ===== VARIABLES =====
+        let noClickCount = 0;
+        let gameEnded = false;
+        
+        const messageDisplay = document.getElementById('messageDisplay');
+        const noButton = document.getElementById('noButton');
+        const yesButton = document.getElementById('yesButton');
+
+        // ===== FUNCTIONS =====
+        function showMessage(message) {
+            messageDisplay.textContent = message;
+            messageDisplay.classList.add('show');
+            
+            setTimeout(() => {
+                messageDisplay.classList.remove('show');
+            }, 2000);
+        }
+
+        function handleNoClick() {
+            if (gameEnded) return;
+            
+            noClickCount++;
+            
+            // Show message for this click
+            if (noClickCount <= noButtonMessages.length) {
+                showMessage(noButtonMessages[noClickCount - 1]);
+            }
+            
+            // Calculate new scales
+            const noScale = Math.max(0.1, 1 - (noClickCount * 0.15));
+            const yesScale = 1 + (noClickCount * 0.2);
+            
+            // Apply scaling
+            noButton.style.transform = `scale(${noScale})`;
+            yesButton.style.transform = `scale(${yesScale})`;
+            
+            // Hide no button after 5 clicks
+            if (noClickCount >= 5) {
+                setTimeout(() => {
+                    noButton.classList.add('hidden');
+                    yesButton.style.transform = `scale(${yesScale + 0.3})`;
+                    showMessage("Tula watte itkya sahaz pane sodel mi tula ? after all those promises, and yeah lets have a one on one conversation naa afterall conversation was the key right maa ! 😉");
+                }, 500);
+            }
+        }
+
+        function handleYesClick() {
+            if (gameEnded) return;
+            
+            gameEnded = true;
+            
+            // Hide no button immediately
+            noButton.classList.add('hidden');
+            
+            // Make yes button prominent
+            yesButton.style.transform = 'scale(1.5)';
+            yesButton.classList.add('success');
+            yesButton.classList.add('disabled');
+            
+            // Show final message
+            showMessage(yesButtonMessage);
+            
+            // Disable further clicks
+            noButton.classList.add('disabled');
+        }
+
+        // ===== EVENT LISTENERS =====
+        noButton.addEventListener('click', handleNoClick);
+        yesButton.addEventListener('click', handleYesClick);
+    </script>
+</body>
+</html>
