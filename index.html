@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -21,6 +22,56 @@
             align-items: center;
             overflow-x: hidden;
             position: relative;
+            transition: all 0.5s ease;
+        }
+
+        /* Tech Theme */
+        body.tech-theme {
+            background: linear-gradient(135deg, #0a0a0a 0%, #1a1a2e 50%, #16213e 100%);
+            font-family: 'Courier New', monospace;
+        }
+
+        /* Theme Toggle Button */
+        .theme-toggle {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: rgba(255, 255, 255, 0.9);
+            border: 3px solid rgba(255, 255, 255, 1);
+            border-radius: 50px;
+            padding: 15px 25px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: 700;
+            color: #ff69b4;
+            backdrop-filter: blur(15px);
+            transition: all 0.3s ease;
+            z-index: 1000;
+            user-select: none;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3), 0 0 15px rgba(255, 255, 255, 0.5);
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
+        }
+
+        .theme-toggle:hover {
+            background: rgba(255, 255, 255, 1);
+            transform: scale(1.1);
+            box-shadow: 0 6px 25px rgba(0, 0, 0, 0.4), 0 0 20px rgba(255, 255, 255, 0.8);
+            color: #e91e63;
+        }
+
+        body.tech-theme .theme-toggle {
+            background: rgba(0, 20, 40, 0.95);
+            border: 3px solid rgba(0, 255, 255, 0.8);
+            color: #00ffff;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5), 0 0 15px rgba(0, 255, 255, 0.6);
+            text-shadow: 0 0 8px rgba(0, 255, 255, 0.8);
+        }
+
+        body.tech-theme .theme-toggle:hover {
+            background: rgba(0, 30, 60, 1);
+            box-shadow: 0 6px 25px rgba(0, 0, 0, 0.6), 0 0 25px rgba(0, 255, 255, 0.8);
+            border-color: rgba(0, 255, 255, 1);
+            text-shadow: 0 0 12px rgba(0, 255, 255, 1);
         }
 
         /* Floating Hearts Background */
@@ -31,11 +82,44 @@
             animation: float 6s ease-in-out infinite;
             user-select: none;
             pointer-events: none;
+            transition: all 0.5s ease;
+        }
+
+        body.tech-theme .heart {
+            color: rgba(0, 255, 255, 0.3);
+            font-family: 'Courier New', monospace;
+            font-size: 16px;
+            animation: techFloat 8s ease-in-out infinite;
+        }
+
+        body.tech-theme .heart::before {
+            content: "{ }";
         }
 
         @keyframes float {
-            0%, 100% { transform: translateY(0px) rotate(0deg); }
-            50% { transform: translateY(-20px) rotate(180deg); }
+
+            0%,
+            100% {
+                transform: translateY(0px) rotate(0deg);
+            }
+
+            50% {
+                transform: translateY(-20px) rotate(180deg);
+            }
+        }
+
+        @keyframes techFloat {
+
+            0%,
+            100% {
+                transform: translateY(0px) rotate(0deg);
+                opacity: 0.3;
+            }
+
+            50% {
+                transform: translateY(-30px) rotate(360deg);
+                opacity: 0.6;
+            }
         }
 
         /* Main Container */
@@ -49,6 +133,13 @@
             backdrop-filter: blur(10px);
             box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
             border: 1px solid rgba(255, 255, 255, 0.2);
+            transition: all 0.5s ease;
+        }
+
+        body.tech-theme .container {
+            background: rgba(0, 20, 40, 0.8);
+            border: 2px solid rgba(0, 255, 255, 0.3);
+            box-shadow: 0 8px 32px rgba(0, 255, 255, 0.1), inset 0 0 20px rgba(0, 255, 255, 0.05);
         }
 
         /* Main Message */
@@ -60,6 +151,13 @@
             text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
             line-height: 1.4;
             padding: 0 10px;
+            transition: all 0.5s ease;
+        }
+
+        body.tech-theme .main-message {
+            color: #00ffff;
+            text-shadow: 0 0 10px rgba(0, 255, 255, 0.5), 2px 2px 4px rgba(0, 0, 0, 0.8);
+            font-family: 'Courier New', monospace;
         }
 
         /* Dynamic Message Display Area */
@@ -81,9 +179,21 @@
             z-index: 10;
         }
 
+        body.tech-theme .message-display {
+            background: rgba(0, 20, 40, 0.9);
+            color: #00ff88;
+            border: 1px solid rgba(0, 255, 255, 0.3);
+            box-shadow: 0 4px 15px rgba(0, 255, 255, 0.2), inset 0 0 10px rgba(0, 255, 255, 0.1);
+            font-family: 'Courier New', monospace;
+        }
+
         .message-display.show {
             transform: scale(1.05);
             box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+        }
+
+        body.tech-theme .message-display.show {
+            box-shadow: 0 6px 20px rgba(0, 255, 255, 0.3), inset 0 0 15px rgba(0, 255, 255, 0.2);
         }
 
         /* Button Container */
@@ -119,6 +229,7 @@
             background: linear-gradient(45deg, #ff4757, #ff3838);
             color: white;
             transform: scale(1);
+            transition: all 0.4s ease;
         }
 
         .no-button:hover:not(.disabled) {
@@ -127,16 +238,41 @@
             box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
         }
 
+        body.tech-theme .no-button {
+            background: linear-gradient(45deg, #ff0040, #cc0033);
+            border: 1px solid rgba(255, 0, 64, 0.5);
+            box-shadow: 0 0 15px rgba(255, 0, 64, 0.3);
+            font-family: 'Courier New', monospace;
+        }
+
+        body.tech-theme .no-button:hover:not(.disabled) {
+            background: linear-gradient(45deg, #cc0033, #990026);
+            box-shadow: 0 6px 20px rgba(255, 0, 64, 0.4), 0 0 20px rgba(255, 0, 64, 0.3);
+        }
+
         .yes-button {
             background: linear-gradient(45deg, #2ed573, #1dd1a1);
             color: white;
             transform: scale(1);
+            transition: all 0.4s ease;
         }
 
         .yes-button:hover:not(.disabled) {
             background: linear-gradient(45deg, #1dd1a1, #0abde3);
             transform: scale(1.05);
             box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        body.tech-theme .yes-button {
+            background: linear-gradient(45deg, #00ff88, #00cc66);
+            border: 1px solid rgba(0, 255, 136, 0.5);
+            box-shadow: 0 0 15px rgba(0, 255, 136, 0.3);
+            font-family: 'Courier New', monospace;
+        }
+
+        body.tech-theme .yes-button:hover:not(.disabled) {
+            background: linear-gradient(45deg, #00cc66, #009944);
+            box-shadow: 0 6px 20px rgba(0, 255, 136, 0.4), 0 0 20px rgba(0, 255, 136, 0.3);
         }
 
         /* Hidden state */
@@ -156,6 +292,11 @@
         .success {
             background: linear-gradient(45deg, #2ed573, #1dd1a1) !important;
             box-shadow: 0 8px 25px rgba(46, 213, 115, 0.4) !important;
+        }
+
+        body.tech-theme .success {
+            background: linear-gradient(45deg, #00ff88, #00cc66) !important;
+            box-shadow: 0 8px 25px rgba(0, 255, 136, 0.6), 0 0 30px rgba(0, 255, 136, 0.4) !important;
         }
 
         /* Responsive Design */
@@ -217,6 +358,7 @@
         }
     </style>
 </head>
+
 <body>
     <!-- Floating Hearts Background -->
     <div class="heart" style="top: 10%; left: 10%; animation-delay: 0s;">♥</div>
@@ -235,21 +377,26 @@
     <div class="heart" style="top: 70%; left: 90%; animation-delay: 3.8s;">♥</div>
     <div class="heart" style="top: 90%; left: 20%; animation-delay: 4.8s;">♥</div>
 
+    <!-- Theme Toggle Button -->
+    <button class="theme-toggle" id="themeToggle">🎨 Tech Mode</button>
+
     <!-- Main Content -->
     <div class="container">
         <div class="main-message">
-           “Coded this one from scratch 💻 — because web dev is my therapy, and version 1.0 was lowkey dedicated to emotions.exe 😭❤️”
+            "Coded this one from scratch 💻 — because web dev is my therapy, and version 1.0 was lowkey dedicated to
+            emotions.exe 😭❤️"
         </div>
-        
+
         <!-- Dynamic Message Display Area -->
         <div class="message-display" id="messageDisplay">
-          “Choose kara baa 👉 — tumhala samjavna is like explaining recursion to a potato 😭 but okay, try at least ek button click kara!”�
+            Choose kara baa 👉 — tumhala samjavna is like explaining recursion to a potato 😭 but okay, try at least ek
+            button click kara!
         </div>
 
         <!-- Interactive Buttons -->
         <div class="button-container">
             <button class="interactive-button no-button" id="noButton">
-                Alright, I’ll wait... forever 😤
+                Alright, I'll wait... forever 😤
             </button>
             <button class="interactive-button yes-button" id="yesButton">
                 Haha just say it already 😏
@@ -261,28 +408,29 @@
         // ===== CUSTOMIZABLE MESSAGES =====
         // Edit these arrays to change the messages shown
         const noButtonMessages = [
-           “Every ‘No’ click is making my code stronger 💪 Stop giving my JS superpowers 😤”,
-            “Even the ‘No’ button applied for leave 😩 Give it some rest before it rage quits!”,
-            “Clicking ‘No’ won’t change the fact that this project still compiles successfully 💻🔥”,
-            “Are you stress testing my patience or my JavaScript loops? 😭⚠️”,
-            “I literally built this entire website for testing user interaction 😤 Don’t leave my API hanging 😢”
+            "Every 'No' click is making my code stronger 💪 Stop giving my JS superpowers 😤",
+            "Even the 'No' button applied for leave 😩 Give it some rest before it rage quits!",
+            "Clicking 'No' won't change the fact that this project still compiles successfully 💻🔥",
+            "Are you stress testing my patience or my JavaScript loops? 😭⚠️",
+            "I literally built this entire website for testing user interaction 😤 Don't leave my API hanging 😢"
         ];
 
-        const yesButtonMessage = “Mission success! 🎉 Let’s celebrate this bug-free masterpiece with a Sandwich 🥪 (Sweet Corn Wala only, dev-approved) — teamwork + caffeine = success! ☕😉”;
+        const yesButtonMessage = "Mission success! 🎉 Let's celebrate this bug-free masterpiece with a Sandwich 🥪 (Sweet Corn Wala only, dev-approved) — teamwork + caffeine = success! ☕😉";
 
         // ===== VARIABLES =====
         let noClickCount = 0;
         let gameEnded = false;
-        
+
         const messageDisplay = document.getElementById('messageDisplay');
         const noButton = document.getElementById('noButton');
         const yesButton = document.getElementById('yesButton');
+        const themeToggle = document.getElementById('themeToggle');
 
         // ===== FUNCTIONS =====
         function showMessage(message) {
             messageDisplay.textContent = message;
             messageDisplay.classList.add('show');
-            
+
             setTimeout(() => {
                 messageDisplay.classList.remove('show');
             }, 2000);
@@ -290,55 +438,71 @@
 
         function handleNoClick() {
             if (gameEnded) return;
-            
+
             noClickCount++;
-            
+
             // Show message for this click
             if (noClickCount <= noButtonMessages.length) {
                 showMessage(noButtonMessages[noClickCount - 1]);
             }
-            
+
             // Calculate new scales
             const noScale = Math.max(0.1, 1 - (noClickCount * 0.15));
             const yesScale = 1 + (noClickCount * 0.2);
-            
+
             // Apply scaling
             noButton.style.transform = `scale(${noScale})`;
             yesButton.style.transform = `scale(${yesScale})`;
-            
+
             // Hide no button after 5 clicks
             if (noClickCount >= 5) {
                 setTimeout(() => {
                     noButton.classList.add('hidden');
                     yesButton.style.transform = `scale(${yesScale + 0.3})`;
-                    showMessage(“You think I’ll give up that easy? 😂 After all those commits and sleepless deploys? Let’s debug this together — teamwork > everything! 💪😉”);
+                    showMessage("You think I'll give up that easy? 😂 After all those commits and sleepless deploys? Let's debug this together — teamwork > everything! 💪😉");
                 }, 500);
             }
         }
 
         function handleYesClick() {
             if (gameEnded) return;
-            
+
             gameEnded = true;
-            
+
             // Hide no button immediately
             noButton.classList.add('hidden');
-            
+
             // Make yes button prominent
             yesButton.style.transform = 'scale(1.5)';
             yesButton.classList.add('success');
             yesButton.classList.add('disabled');
-            
+
             // Show final message
             showMessage(yesButtonMessage);
-            
+
             // Disable further clicks
             noButton.classList.add('disabled');
+        }
+
+        // ===== THEME TOGGLE FUNCTION =====
+        function toggleTheme() {
+            const body = document.body;
+            const isCurrentlyTech = body.classList.contains('tech-theme');
+
+            if (isCurrentlyTech) {
+                body.classList.remove('tech-theme');
+                themeToggle.textContent = '🎨 Tech Mode';
+            } else {
+                body.classList.add('tech-theme');
+                themeToggle.textContent = '💖 Heart Mode';
+            }
         }
 
         // ===== EVENT LISTENERS =====
         noButton.addEventListener('click', handleNoClick);
         yesButton.addEventListener('click', handleYesClick);
+        themeToggle.addEventListener('click', toggleTheme);
     </script>
 </body>
+
 </html>
